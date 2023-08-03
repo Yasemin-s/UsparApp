@@ -1,74 +1,60 @@
 package com.example.usparapplication
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.widget.Button
-import android.widget.TextView
 import android.util.Log
-import android.widget.Toast
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.ListView
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import java.sql.Connection
+import java.sql.ResultSet
 import java.sql.Statement
 
 class MainActivity : AppCompatActivity() {
-    // Connection tipinde bir değişken tanımlıyoruz
-    var connection: Connection? = null
+    private var connection: Connection? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)  //xml dosyasını baglar ve ekrnda gosteririr
+        setContentView(R.layout.activity_main)
 
-        // Button ve TextView elemanlarını XML dosyasındaki id'leri ile eşleştiriyoruz
-        val btnConnect = findViewById<Button>(R.id.button)  //xml dosyasindakş buttın adli elemani degiskene atadim
-        val name = findViewById<TextView>(R.id.textView)
+        val btnConnect: Button = findViewById(R.id.button)
 
-        // Button'a tıklama olayını dinlemek için setOnClickListener kullanıyoruz
         btnConnect.setOnClickListener {
-            Toast.makeText(
-                baseContext,
-                "butona tıklandı.",
-                Toast.LENGTH_SHORT,
-            ).show()
-            val c = ConSQL()    //ConSQL sinifindan nesne olusturur.
-            connection = c.conClass()   //veritabani baglantisini cagirir.
+            val nameTextView: TextView = findViewById(R.id.textView)
+            val c = ConSQL()
+            connection = c.conclass()
+            println("connection : ${connection}")
             if (connection != null) {
                 try {
-                    val sqlStatement = "Select * from StudentInfo_Tab"  //vt de calisacaak sql sorgusu
-                    val smt: Statement = connection!!.createStatement() //statik sql ifadelerini çağırmada kullanır.vt baglantisi ustunden Statement olusturur.Kısacası, Statement nesnesi veritabanında statik SQL ifadelerini çalıştırmak için kullanılır ve executeQuery() metodu ile sorguların sonuçları elde edilebilir.
-                    val set = smt.executeQuery(sqlStatement)    //sql sorgusu çalıştırılır ve tablodaki veriler çekilir.
-                    while (set.next()) {    //her 1 satiri gezerek islem yapar ve textview e yazdirir.
-                        name.text = set.getString(2)
-                        Log.d("Tag", "Mesaj")
-                        /*Toast.makeText(
-                            baseContext,
-                            "mesajjj ${name.text} .",
-                            Toast.LENGTH_SHORT,
-                        ).show()*/
+
+// Try bloğu içinde:
+                    Log.d("MainActivity", "Bağlantı başarılı.")
+                    val sqlStatement = "Select * from INFO_KALITE_PERSONEL"
+                    val smt: Statement = connection!!.createStatement()
+                    val resultSet: ResultSet = smt.executeQuery(sqlStatement)
+                    val studentNames = ArrayList<String>()
+
+                    while (resultSet.next()) {
+                        val studentName: String? = resultSet.getString(3)
+                        if (studentName != null) {
+                            println("nameee : ${studentName}")
+                            studentNames.add(studentName)
+                        }
                     }
-                    connection!!.close()    //vt baglantisi kapatilir.
+                    Log.d("MainActivity", "Veriler başarılı bir şekilde alındı.")
+
+// studentNames listesi, tablodaki tüm öğrenci adlarını içerir.
+
+                    // Try bloğunun sonunda:
+                    val listView: ListView = findViewById(R.id.listView)
+                    val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, studentNames)
+                    listView.adapter = adapter
+
+
+                    connection!!.close()
                 } catch (e: Exception) {
-                    Toast.makeText(
-                        baseContext,
-                        "baglantııda sorun oluştur catchh.",
-                        Toast.LENGTH_SHORT,
-                    ).show()
-                    Log.e("Error is", "Error occurred: ${e.message}")
-                }
-                /*finally{
-                    Toast.makeText(
-                        baseContext,
-                        "baglantııda sorun oluştur finally.",
-                        Toast.LENGTH_SHORT,
-                    ).show()
-                    connection!!.close()    //vt baglantisi kapatilir.
-                }*/
-                finally {
-                    if (connection != null) {
-                        connection!!.close() // null değilse kapatılır
-                    } else {
-                        Toast.makeText(baseContext, "Veritabanı bağlantısı null.", Toast.LENGTH_SHORT).show()
-                        // Veya başka bir işlem yapabilirsiniz.
-                    }
+                    Log.e("error is", e.message.toString())
                 }
 
             }
