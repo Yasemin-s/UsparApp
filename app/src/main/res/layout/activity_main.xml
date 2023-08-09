@@ -1,27 +1,42 @@
-<RelativeLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:padding="16dp">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
 
-<TextView
-    android:id="@+id/textView"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_centerInParent="true"
-    android:text="Student Name Placeholder"
-    android:textSize="18sp" />
+    <!-- Arama bileşenleri -->
+    <EditText
+        android:id="@+id/searchEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Arama yapın..."
+        android:inputType="text" />
 
-<Button
-    android:id="@+id/button"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Get Student Name"
-    android:layout_below="@id/textView"
-    android:layout_centerHorizontal="true"
-    android:layout_marginTop="16dp" />
+    <Button
+        android:id="@+id/searchButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ara"
+        android:layout_below="@id/searchEditText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"/>
 
-<!-- Yeni listview elemanı -->
+    <!-- Diğer bileşenler -->
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="232dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/searchButton"
+        android:layout_centerHorizontal="true"
+        android:text="Info Hava Tüketim Tablosundan Gelen Veriler"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="217dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView"
+        android:layout_centerHorizontal="true"
+        android:text="Verileri Getir" />
 
     <ListView
         android:id="@+id/listView"
