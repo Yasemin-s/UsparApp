@@ -13,11 +13,11 @@ class ConSQL {  // Veritabanı bağlantısı için Connection nesnesini tutacak 
 
     @SuppressLint("NewApi")
     fun conclass(): Connection? {   // Bağlantıyı oluşturan fonksiyon.
-        val ip = "192.168.2.210"//DESKTOP-2JP7ACI\SQLEXPRESS2 isimle girince olmuyor
-        val port = "1433"
-        val db = "ARAKNE"
-        val username = "Sa"
-        val password = "Sa782455"
+        val ip = "192.168.xxx.xxx"
+        val port = "port"
+        val db = "database_name"
+        val username = "username"
+        val password = "password"
 
         val a: StrictMode.ThreadPolicy = StrictMode.ThreadPolicy.Builder().permitAll().build()  // Bu bölümde, ThreadPolicy izinleri vererek ağ işlemlerini ana iş parçacığından yapma izni veriyor.
         StrictMode.setThreadPolicy(a)
@@ -31,7 +31,7 @@ class ConSQL {  // Veritabanı bağlantısı için Connection nesnesini tutacak 
         } catch (e: Exception) {
             Log.e("ConSQL", "Error: ${e.message}")
         }
-        println("url : ${connectURL} burdaaaa")
+        println("url : ${connectURL} ")
         println("con : ${con}") // Bağlantı nesnesini döndürür.
         return con
     }

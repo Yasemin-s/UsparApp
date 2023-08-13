@@ -4,6 +4,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        release {
+            keyAlias 'keyAlias_name'
+            keyPassword 'key_password'
+            storeFile file('storefile_patch')
+            storePassword 'store_password'
+        }
+    }
     namespace 'com.example.usparapplication'
     compileSdk 33
 
@@ -19,6 +27,7 @@ android {
 
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
